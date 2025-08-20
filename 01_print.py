@@ -1,0 +1,6 @@
+print("Hello World")
+print()
+print("첫 프린트")
+print('파이썬에서는 큰 따옴표 작은따옴표 상관없음')
+print()
+print()
