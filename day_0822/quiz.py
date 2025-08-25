@@ -13,7 +13,7 @@ print("총 금액: ", total)
 # 스플릿 사용 해보기
 
 email = "hello_python@naver.com"
-id_part = email.split("@")[0]
+id_part = email.split("@")[0]   # ['hello_python', 'naver.com']
 print(id_part)
 
 
