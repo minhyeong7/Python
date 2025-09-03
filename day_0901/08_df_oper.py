@@ -72,6 +72,7 @@ sample2 = df.sub(addition, fill_value=0)
 print(sample2.tail())
 print()
 
+
 # print(titanic.head())
 # print()
 # titanic.info()
