@@ -1,0 +1,25 @@
+# embark_town 열의 825 행 부터 830 행 조회.
+df_et = df['embark_town'].iloc[825:831]
+print(df_et)
+print(type(df_et))
+print()
+
+df_et1 = df.iloc[820:831]
+print(df_et1)
+print(type(df_et1))
+print()
+
+df_et2 = df.loc[825:830, 'embark_town']
+print(df_et2)
+print(type(df_et2))
+print()
+
+df_et3 = df['embark_town'][820:831]
+print(df_et3)
+print(type(df_et3))
+print()
+
+df_et4 = df.iloc[820:830]['embark_town']
+print(df_et4)
+print(type(df_et4))
+print()
