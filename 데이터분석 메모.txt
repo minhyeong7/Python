@@ -62,8 +62,6 @@ df.loc[['철수', '정수'], ['수학', '영어']]   df.iloc[[0, 2], [0, 1]]   -
 df.loc['철수':'정수', '수학':'영어']         df.iloc[0:3, 0:1]        --- 데이터 반환
 df.loc['동수', '사회':'미술']
 
-
-
 #################################################
 
 ### <열 추가>
@@ -117,4 +115,62 @@ df.to_json("./data/df_sample.json")
 df.to_excel("./data/df_sample.xlsx")
 
 #################################################
+
+df['deck'].value_counts(dropna=False)
+
+df.isnull()  --- 널값이면 True, False
+df.isnull().sum(axis=0) --- 모든컬럼 널 합계
+
+df.dropna()  --- ???
+df.dropna(axis=1) --- ???
+df.dropna(subset=['age'], axis=0) --- ???
+df.dropna(subset=['age', 'deck'], axis=0) --- ???
+
+df['embark_town'].mode()[0]
+
+df['age'].fillna(mean_age)
+
+df['embark_town'].ffill()
+df['embark_town'].bfill()
+
+#################################################
+
+df.duplicated()
+df['c2'].duplicated()
+df.duplicated(subset=['c2'])
+
+df.drop_duplicates()
+df.drop_duplicates(subset=['c2', 'c3'])
+
+#################################################
+
+df['horsepower'].unique()
+df['horsepower'].replace('?', np.nan)
+df['horsepower'].astype('float')
+df['origin'].replace({1:'USA', 2:'EU', 3:'JPN'})
+
+### 범주 자료형 ###
+df['origin'].astype('category')
+
+#################################################
+
+label_encoder.fit_transform(data1)
+onehot_encoder.fit_transform(data2)
+
+scaler = MinMaxScaler()
+scaler.fit_transform(df[['horsepower']])
+
+scaler = StandardScaler()
+scaler.fit_transform(df[['horsepower']])
+
+#################################################
+
+df['new_Date'] = pd.to_datetime(df['Date'])
+
+
+
+
+
+
+
 

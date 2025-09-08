@@ -9,6 +9,7 @@ df = df.set_index('new_Date').sort_index()
 ts= df.head(10)
 print(ts)
 print()
+
 # -----------------------------------------------
 
 print(ts.shift(1))
@@ -21,7 +22,6 @@ print(ts.asfreq('5D'))
 print()
 print(ts.asfreq('5D',method='bfill'))
 print()
-
 
 # Resampling
 print(ts.resample('3B'))
