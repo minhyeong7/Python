@@ -33,6 +33,7 @@ print(df)
 # 시계열 데이터의 인덱스로 쓰이기 위해 설계된 자료 구조
 print(pd.DatetimeIndex(["2022-12-25","2024/02/29","1999.12.31"]))
 print()
+
 # Timestamp
 print("-----pd.Timestamp-----")
 print()

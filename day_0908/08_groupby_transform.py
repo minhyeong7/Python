@@ -54,14 +54,14 @@ age_zscore2= grouped['age'].transform(lambda x: (x-x.mean()) / x.std())
 print(age_zscore2)
 print()
 
-
+# 내장 집계 함수를 사용하여 반환
 age_zscore3 =(df['age'] - grouped['age'].transform('mean')) / grouped['age'].transform('std')
 print(age_zscore3)
 print()
 
-age_zscore3= (df['age'] - grouped['age'].transform('mean')) / grouped['age'].transform('std')
-print(age_zscore3)
-print()
+
+
+
 
 
 
