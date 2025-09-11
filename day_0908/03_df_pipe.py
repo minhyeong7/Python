@@ -54,11 +54,11 @@ print(df2)
 print()
 
 
-print(verify_initial(extract_initial(df2)))
+# print(verify_initial(extract_initial(df2)))
 
-df2.pipe(extract_initial).pipe(verify_initial)
-print(df2)
+# df2.pipe(extract_initial).pipe(verify_initial)
+# print(df2)
 
-print(df2['verified'].value_counts())
+# print(df2['verified'].value_counts())
 
 

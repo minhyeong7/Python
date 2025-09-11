@@ -28,7 +28,7 @@ grouped_filter = grouped.filter(lambda x: len(x) >= 200 )
 print(grouped_filter)
 print()
 
-
+# 각 그룹을 하나씩 꺼내 확인하는 방식
 for key,group in grouped:
     print('key :', key)
     print('number :', len(group))

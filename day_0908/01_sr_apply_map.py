@@ -33,41 +33,41 @@ print(sr2)
 print()
 
 
-# 함수의 매개변수가 2개 이상인 경우
-sr3 = df['age'].apply(add_two_obj, b=10)
-print(sr3.head())
+# # 함수의 매개변수가 2개 이상인 경우
+# sr3 = df['age'].apply(add_two_obj, b=10)
+# print(sr3.head())
 
-# 함수의 매개변수가 2개 이상인 경우 (람다 함수로!)
-sr4 = df['age'].apply(lambda a,b : a+b, b=10)
-print(sr4)
-print()
+# # 함수의 매개변수가 2개 이상인 경우 (람다 함수로!)
+# sr4 = df['age'].apply(lambda a,b : a+b, b=10)
+# print(sr4)
+# print()
 
-# 시리즈의 원소에 map() 적용
-def over_thirty(age):
-    return age>30 
+# # 시리즈의 원소에 map() 적용
+# def over_thirty(age):
+#     return age>30 
 
-sr_map = df['age'].map(over_thirty)
-print(sr_map.head())
-print()
+# sr_map = df['age'].map(over_thirty)
+# print(sr_map.head())
+# print()
 
-# apply와 동일함
-# sr_map2 = df['age'].apply(over_thirty)
+# # apply와 동일함
+# # sr_map2 = df['age'].apply(over_thirty)
+# # print(sr_map2.head())
+# # print()
+
+# sr_map2=df['age'].map(lambda age: True if age>30 else False)
 # print(sr_map2.head())
 # print()
 
-sr_map2=df['age'].map(lambda age: True if age>30 else False)
-print(sr_map2.head())
-print()
+# print(titanic['sex'].unique())
+# print()
+# print(titanic['sex'].head())
+# print()
 
-print(titanic['sex'].unique())
-print()
-print(titanic['sex'].head())
-print()
-
-gender_dict={'male':0,'female':1}
-titanic['gender']=titanic['sex'].map(gender_dict)
-titanic.info()
-print(titanic)
+# gender_dict={'male':0,'female':1}
+# titanic['gender']=titanic['sex'].map(gender_dict)
+# titanic.info()
+# print(titanic)
 
 
 
