@@ -51,3 +51,52 @@ print(fig)
 print(axes)
 
 plt.show()
+
+
+# -------------- subplot_mosaic --------------
+
+
+fig,axes =plt.subplot_mosaic([['top_left', 'right'],['bottom_left', 'right']], figsize=(12, 4))
+
+axes['right'].plot(samsung_revenue['quarter'],samsung_revenue['value'])
+plt.show()
+print(fig)
+print(axes)
+
+
+
+'''
+import matplotlib.pyplot as plt
+
+plt.plot(시리즈)  x축 - 인덱스 y축 - 밸류
+plt.show()
+
+plt.plot(x축자료, y축자료)
+plt.show()
+
+
+데이터.plot()   -- 판다스에서 제공하는 형태 (내부적으로는 matplotlib)
+
+plt.figure(figsize=(10,8))
+plt.plot(x축, y축, marker = 'o', color ='magenta',label=' 충청도')
+
+데이터.plot()
+
+plt.title('인구이동')
+plt.xlabel('년도')
+plt.ylabel('이동인구')
+plt.legend() --- 범례
+plt.show()
+
+fig, axes = subplots(2,2, figsize=(12,8))
+axes[0,0].plot(x,y,디자인)
+axes[0,1]
+axes[1,0]
+axes[1,1]
+
+axes[0,0].set_title('')
+
+'''
+
+
+

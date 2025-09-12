@@ -8,9 +8,6 @@ rc('font',family=font_name)
 plt.rcParams['axes.unicode_minus'] =False
 
 
-
-
-
 a= [1,2,3]
 b= [4,5,6]
 
@@ -42,8 +39,6 @@ print(df)
 # plt.xticks([0,2,3],['aaaa','bbbb','cccc'], rotation=90)
 # plt.annotate('이건직선',xy=(0, 5),color ='red',rotation=45)
 # plt.legend()
-
-
 
 plt.figure(figsize=(10,8))
 plt.plot([-1,1,3],[8,6,4], marker='o',linestyle='dotted', color='blue', label='파란직선')
