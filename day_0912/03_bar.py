@@ -50,7 +50,7 @@ plt.xlabel('기간', labelpad=10, size=20)
 plt.ylim(5000, 30000)
 plt.tick_params(axis='x', rotation=0)
 plt.legend(title='전입지', fontsize=15)
-plt.show()
+
 
 # ------------------- 가로형 막대 그래프 -----------------
 
@@ -66,8 +66,18 @@ print()
 df_total = df_4[['합계']].sort_values(by='합계', ascending=True)
 print(df_total)
 
-df_total.plot(kind='barh', figsize=(10, 5))
+df_total.plot(kind='bar', figsize=(10, 5))
 plt.title('서울 -> 타시도 인구이동')
 plt.ylabel('전입지')
 plt.xlabel('이동 인구 수')
+plt.show()
+
+fig, axes = plt.subplots(1,2, figsize=(10,5))
+axes[0].bar(df_total.index, df_total['합계'])
+axes[0].set_title('시도별 전입인구')
+
+df_total.plot(kind='bar', ax=axes[1])
+axes[1].set_title('시도별 전입인구')
+axes[1].set_xticklabels(['충청남도', '경상북도', '강원도', '전라남도'], rotation=0)
+
 plt.show()
