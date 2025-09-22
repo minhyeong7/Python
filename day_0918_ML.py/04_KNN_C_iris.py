@@ -44,6 +44,7 @@ train_input, test_input, train_target, test_target = train_test_split(
     # random_state=42 → 시드값 고정(결과 재현 가능)
 )
 
+
 # KNN 분류기 생성 (이웃 개수 = 3)
 kn = KNeighborsClassifier(n_neighbors=3)
 
@@ -53,7 +54,7 @@ print('kn 모델 변수에 학습 완료')
 print()
 
 # 학습된 모델로 테스트 데이터 예측
-y_pred = kn.predict(test_input)
+y_pred = kn.predict()
 
 # 예측 결과 vs 실제값 출력
 print("예측값:", y_pred)            # 모델이 예측한 품종
@@ -61,6 +62,4 @@ print("실제값:", test_target)       # 실제 품종(정답)
 print('스코어:', kn.score(test_input, test_target))
 
 from sklearn.metrics import accuracy_score
-
 print('정확도:', accuracy_score(test_target,y_pred))
-
