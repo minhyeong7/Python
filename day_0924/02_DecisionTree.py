@@ -88,6 +88,7 @@ print(dt.score(train_input, train_target))
 print(dt.score(test_input, test_target))
 
 # 특성별로 중요도 뽑아보기
+
 print('----- 특성별 중요도 -----')
 print(dt.feature_importances_)
 
@@ -137,3 +138,4 @@ print(dt.score(test_input, test_target))
 # plt.figure(figsize=(20,15))
 # plot_tree(dt, filled=True, feature_names=['Weight', 'Length', 'Diagonal', 'Height', 'Width'])
 # plt.show()
+
