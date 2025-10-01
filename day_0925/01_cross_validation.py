@@ -53,7 +53,8 @@ from sklearn.model_selection import StratifiedKFold
 scores = cross_validate(dt, train_input, train_target, cv=StratifiedKFold())
 print(np.mean(scores['test_score']))
 
-# StratifiedKFold 옵션 설정
 splitter = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
 scores = cross_validate(dt, train_input, train_target, cv=splitter)
 print(np.mean(scores['test_score']))
+
+
