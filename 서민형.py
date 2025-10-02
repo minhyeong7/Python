@@ -1,152 +1,133 @@
-
-print("==========================1번===========================")
-# 1.  Seaborn의 titanic 데이터셋을 불러와 titanic 변수에 저장하시오.
-import pandas as pd
 import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from matplotlib import font_manager, rc
+
+# 한글 폰트 설정
+font_path = 'C:/Windows/Fonts/malgun.ttf'
+font_name = font_manager.FontProperties(fname=font_path).get_name()
+rc('font', family=font_name)
+plt.rcParams['axes.unicode_minus'] = False
 
 
-titanic=sns.load_dataset('titanic')
-print("==========================2번===========================")
-# 2.  Titanic 데이터의 기본 정보를 조회하시오
-titanic.info()
+print("------------------데이터 전처리------------------------------")
+# 데이터 불러오기
+df = sns.load_dataset('titanic')
 
-print()
-print("==========================3번===========================")
-# 3.  Titanic 데이터의 행과 열 개수를 조회하고, 몇 차원 배열인지 조회하시오
-print("행과 열:",titanic.shape)
-print()
-print("차원:",titanic.ndim)
-print()
+# 널값 제거
+df = df.dropna(subset=['age','fare'])
 
-print("==========================4번===========================")
-# 4.  첫 3행과 마지막 2행을 조회하시오
-print(titanic.iloc[:3])
-print()
-print(titanic.iloc[:-3:-1])
-print()
-print("==========================5번===========================")
-# 5.  loc을 사용해 첫 5행에서 열 ['survived','pclass','sex','age']만을 가진 데이터프레임 df_loc을 만들고, 출력하시오.
-df_loc=titanic.loc[:5,'survived':'age']
-print(df_loc)
-print()
-print("==========================6번===========================")
-# 6.  iloc을 사용해 행 10~14(포함), 열 0~3(포함)을 추출해 df_iloc에 저장하고, 출력하시오.
-df_iloc=titanic.iloc[10:15,0:4]
-print(df_iloc)
-print()
-print("==========================7번===========================")
-# 7.  원본을 훼손하지 않고(inplace=False) titanic에서 열 ['deck','embark_town']을 드랍한 새 데이터프레임 df_drop_cols를 만드시오.
-df_drop_cols=titanic.drop(['deck','embark_town'],axis=1,inplace=False)
-print(df_drop_cols)
-print()
-print("==========================8번===========================")
-# 8.  결측치가 하나라도 있는 행을 드랍한 데이터프레임 df_dropna_rows를 만드시오.
-df_dropna_rows=titanic.dropna()
-df_dropna_rows.info()
-print()
-print("==========================9번===========================")
-# 9.  각 열별 결측치 개수를 Series로 구하시오.
-print(titanic.isnull().sum(axis=0))
-print()
+# 필요한 컬럼 선택 및 범주형 숫자 변환
+df = df[['survived','pclass','sex','age','fare']]
+df['sex'] = df['sex'].map({'male':1,'female':0})
 
-print("==========================10번===========================")
-# 10.  age 열의 결측치 개수만 따로 출력하시오.
-print(titanic['age'].isnull().sum(axis=0))
-print()
+# 특성과 타겟 분리
+X = df.drop('survived', axis=1)
+y = df['survived']
 
-print("==========================11번===========================")
-# 11.  age 열의 평균값으로 해당 열의 결측치를 대체한 새로운 시리즈 age_filled를 만드시오(원본 불변).
-mean=titanic['age'].mean()
-age_filled=titanic['age'].fillna(mean)
-print(age_filled)
-print()
+# 훈련/테스트 데이터 분리
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-print("==========================12번===========================")
-# 12.  대체 전후 age의 결측치 개수를 각각 출력하여 비교하시오.
-print("대체 전:",titanic['age'].isnull().sum(axis=0),"대체 후:",age_filled.isnull().sum(axis=0))
-print()
+print("---------------데이터 간단 시각화------------------------")
 
-print("==========================13번===========================")
-# 13.  embarked 열의 최빈값을 describe() 결과로 확인하시오.
-most_freq2 = titanic['embark_town'].mode()
-print(most_freq2.describe())
+# 생존자 수
+sns.countplot(x='survived', data=df)
+plt.title('생존자 수'); plt.show()
 
-print("==========================14번===========================")
-# 14.  그 최빈값으로 embarked의 결측치를 대체한 embarked_filled 시리즈를 만드시오(원본 불변).
-most_freq = titanic['embarked'].value_counts(dropna=True).idxmax()
-titanic['embarked']=titanic['embarked'].fillna(most_freq)
-embarked_filled=titanic['embarked']=titanic['embarked'].fillna('S')
-embarked_filled.info()
+# 성별에 따른 생존자 수
+sns.countplot(x='survived', hue='sex', data=df)
+plt.title('성별에 따른 생존자 수'); plt.show()
 
-print("==========================15번===========================")
-# 15.  수치형 열 중 ['age','fare']만 선택하여 0~1 범위로 Min-Max 스케일링한 데이터프레임 df_scaled를 만드시오(사전 결측 대체 필요 시 적절히 처리).
-from sklearn.preprocessing import MinMaxScaler
-scaler = MinMaxScaler()
-df_scared = titanic.dropna(subset=['age','fare'], axis=0)
-df_scared[['age','fare']] = scaler.fit_transform(df_scared[['age','fare']])
-print(df_scared[['age','fare']])
-print()
+# 객실 등급별 생존자 수
+sns.countplot(x='survived', hue='pclass', data=df)
+plt.title('객실 등급별 생존자 수'); plt.show()
 
-print("==========================16번===========================")
-# 16.  스케일링 후 각 열의 최소/최대가 0과 1에 가깝게 되었는지 describe()로 확인하시오.
-print(df_scared[['age','fare']].describe())
-print()
+# 나이 분포별 생존자
+sns.histplot(data=df, x='age', hue='survived', bins=30, kde=False)
+plt.title('나이 분포별 생존자'); plt.show()
 
+print("-----------의사결정모델----------------------------------")
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import roc_auc_score, roc_curve, RocCurveDisplay
 
-print("==========================17번===========================")
-# 17.  age를 기준으로 아동(018], 성인(18100]) 4구간으로 나누어 새 열 age_bin 을 생성하시오.
+# 그리드 서치로 최적 하이퍼파라미터 찾기
+dt = DecisionTreeClassifier(random_state=42)
+param_grid = {'max_depth':[2,3,4,5,6], 'min_samples_split':[2,5,10], 'min_samples_leaf':[1,2,4]}
+grid = GridSearchCV(dt, param_grid, cv=5, scoring='roc_auc', verbose=1)
+grid.fit(X_train, y_train)
+
+best_dt = grid.best_estimator_
+print("최적 하이퍼파라미터:", grid.best_params_)
+
+# ROC AUC와 정확도
+y_pred_proba = best_dt.predict_proba(X_test)[:,1]
+auc_dt = roc_auc_score(y_test, y_pred_proba)
+acc_dt = best_dt.score(X_test, y_test)
+print(f'의사결정나무 ROC AUC: {auc_dt:.3f}, 정확도: {acc_dt:.3f}')
+
+# ROC 곡선
+fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
+RocCurveDisplay(fpr=fpr, tpr=tpr, roc_auc=auc_dt, estimator_name='Decision Tree').plot()
+plt.title('ROC Curve - 의사결정나무'); plt.show()
+
+# 트리 시각화
+plt.figure(figsize=(15,10))
+plot_tree(best_dt, filled=True, feature_names=X.columns, class_names=['죽음','생존'], rounded=True, fontsize=12)
+plt.title('의사결정나무 시각화'); plt.show()
+
+print("--------------로지스틱 회귀 모델--------------------------------")
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_auc_score, RocCurveDisplay
+from scipy.special import expit
 import numpy as np
-count, bin_dividers = np.histogram(df_scared['age'], bins=[0,12,18,60,100])
-names= ['아동', '청소년', '성인','노인']
 
-df_scared['age_bin'] = pd.cut(x=titanic['age'],
-                      bins=bin_dividers,
-                      labels=names,
-                      include_lowest=True)
-print(df_scared)
-print()
+lr = LogisticRegression(max_iter=1000)
+lr.fit(X_train, y_train)
 
-print("==========================18번===========================")
-# 18.  각 구간별 인원수를 구하시오.
-grouped = df_scared.groupby(['age_bin'],observed=True)
-print(grouped['age_bin'].value_counts())
-print()
+# ROC AUC와 정확도
+y_lr_proba = lr.predict_proba(X_test)[:,1]
+auc_lr = roc_auc_score(y_test, y_lr_proba)
+acc_lr = lr.score(X_test, y_test)
+print(f'로지스틱 회귀 ROC AUC: {auc_lr:.3f}, 정확도: {acc_lr:.3f}')
 
-print("==========================19번===========================")
-# 19.  pclass와 sex로 그룹화하여 survived의 평균 생존율을 구하시오.
-grouped = titanic.groupby(['pclass','sex'],observed=True)
-agg_all = grouped.agg({'survived':['mean']})
-print(agg_all)
-print()
+# ROC 곡선
+RocCurveDisplay.from_predictions(y_test, y_lr_proba, name='Logistic Regression')
+plt.title('ROC Curve - 로지스틱 회귀'); plt.show()
 
-
-print("==========================20번===========================")
-# 20.  위 결과를 생존율 내림차순으로 정렬하시오.
-print()
-
-print("==========================21번===========================")
-# 21.  age_bin(문항17)과 sex로 그룹화하여 fare의 중앙값을 구하시오
-grouped2 = df_scared.groupby(['age_bin','fare'],observed=True)
-median = grouped.agg({'fare':['median']})
-print(median)
+# 테스트 데이터 상위 5개 샘플 z 값과 시그모이드 확률 확인
+X_sample = X_test[:5]
+z_values = lr.decision_function(X_sample)
+sigmoid_probs = expit(z_values)
+pred_classes = lr.predict(X_sample)
+print("상위 5개 샘플 z값:", z_values)
+print("시그모이드 확률:", sigmoid_probs)
+print("예측 클래스:", pred_classes)
+print("모델 클래스:", lr.classes_)
+print("모델 파라미터 (가중치/절편):", lr.coef_, lr.intercept_)
 
 
-print()
+print("-----------비교/평가---------------")
+import matplotlib.pyplot as plt
+from sklearn.metrics import roc_curve, roc_auc_score
 
-print(titanic)
-# 11.  age 열의 평균값으로 해당 열의 결측치를 대체한 새로운 시리즈 age_filled를 만드시오(원본 불변)
-corr = titanic.corr(numeric_only=True)
-print(corr)
+# 의사결정나무 확률
+y_dt_proba = best_dt.predict_proba(X_test)[:,1]
+fpr_dt, tpr_dt, _ = roc_curve(y_test, y_dt_proba)
+auc_dt = roc_auc_score(y_test, y_dt_proba)
 
-titanic['age_filled'] = titanic['age'].fillna(
-    titanic.groupby('pclass')['age'].transform('mean')
-)
+# 로지스틱 회귀 확률
+y_lr_proba = lr.predict_proba(X_test)[:,1]
+fpr_lr, tpr_lr, _ = roc_curve(y_test, y_lr_proba)
+auc_lr = roc_auc_score(y_test, y_lr_proba)
 
-print(titanic[['fare', 'age', 'age_filled']].head(20))
-
-
-
-# age_filled=titanic['age'].fillna(mean)
-# print(age_filled)
-# print()
-
+# ROC 곡선 그리기
+plt.figure(figsize=(8,6))
+plt.plot(fpr_dt, tpr_dt, label=f'Decision Tree (AUC={auc_dt:.3f})')
+plt.plot(fpr_lr, tpr_lr, label=f'Logistic Regression (AUC={auc_lr:.3f})')
+plt.xlabel('False Positive Rate (FPR)')
+plt.ylabel('True Positive Rate (TPR)')
+plt.title('ROC Curve Comparison')
+plt.legend()
+plt.grid(True)
+plt.show()
